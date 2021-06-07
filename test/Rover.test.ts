@@ -1,15 +1,26 @@
 import Rover from "../src/Rover";
+import North from "../src/Direction/North";
+import East from "../src/Direction/East";
+import South from "../src/Direction/South";
+import West from "../src/Direction/West";
 
 const STARTING_COORDINATES = "5:5:";
 const FACING_NORTH = "N";
 const FACING_EAST = "E";
 const FACING_SOUTH = "S";
 const FACING_WEST = "W";
+const NORTH = new North();
+const EAST = new East();
+const SOUTH = new South();
+const WEST = new West();
 
 let rover: Rover;
 
-describe("Rover should", () => {
-    rover = new Rover(STARTING_COORDINATES + FACING_NORTH);
+describe("Rotation functionality - Rover should", () => {
+    beforeEach(() => {
+        rover = new Rover(STARTING_COORDINATES, NORTH);
+    });
+
     it.each`
         inputCommands | expectedOutput
         ${"R"}        | ${STARTING_COORDINATES + FACING_EAST}
@@ -29,23 +40,26 @@ describe("Rover should", () => {
     `("rotate left when an L command is received", ({inputCommands, expectedOutput}) => {
         expect(rover.execute(inputCommands)).toBe(expectedOutput);
     })
+})
 
+describe("Movement functionality - Rover should", () => {
+    rover = new Rover(STARTING_COORDINATES, NORTH)
     it("move one space forward along y axis when an M command is received and Rover is facing north", () => {
         expect(rover.execute("M")).toBe("5:6:" + FACING_NORTH);
     })
 
     it("move one space forward along x axis when an M command is received and Rover is facing east", () => {
-        rover = new Rover(STARTING_COORDINATES + FACING_EAST)
+        rover = new Rover(STARTING_COORDINATES, EAST)
         expect(rover.execute("M")).toBe("6:5:" + FACING_EAST);
     })
 
     it("move one space backwards along y axis when an M command is received and Rover is facing south", () => {
-        rover = new Rover(STARTING_COORDINATES + FACING_SOUTH)
+        rover = new Rover(STARTING_COORDINATES, SOUTH)
         expect(rover.execute("M")).toBe("5:4:" + FACING_SOUTH);
     })
 
     it("move one space backwards along x axis when an M command is received and Rover is facing west", () => {
-        rover = new Rover(STARTING_COORDINATES + FACING_WEST)
+        rover = new Rover(STARTING_COORDINATES, WEST)
         expect(rover.execute("M")).toBe("4:5:" + FACING_WEST);
     })
 })

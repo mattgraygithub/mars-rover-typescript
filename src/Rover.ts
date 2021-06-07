@@ -1,40 +1,29 @@
-export default class Rover {
-    private readonly startingPosition: string;
-    directions: string[] = ["N", "E", "S", "W"]
+import {Direction} from "./Direction/Direction";
 
-    constructor(startingPosition: string) {
-        this.startingPosition = startingPosition;
+export default class Rover {
+    private readonly startingCoordinates: string;
+    private _direction: Direction;
+
+    constructor(startingCoordinates: string, direction: Direction) {
+        this.startingCoordinates = startingCoordinates;
+        this._direction = direction;
     }
 
     execute(commands: string): string {
-
-        let direction: string = this.startingPosition[4];
-        let yPosition: number = Number(this.startingPosition[2]);
-        let xPosition: number = Number(this.startingPosition[0]);
+        let coordinates = this.startingCoordinates.slice(0, 4);
 
         for (let command of commands) {
             if (command === "R") {
-                direction = this.directions[(this.directions.indexOf(direction) + 1) % 4];
+                this._direction = this._direction.rotateRight();
             }
             if (command === "L") {
-                direction = this.directions[(this.directions.indexOf(direction) + 3) % 4];
+                this._direction = this._direction.rotateLeft();
             }
             if (command === "M") {
-                if(direction === "N"){
-                    yPosition++
-                }
-                if(direction === "E"){
-                    xPosition++
-                }
-                if(direction === "S"){
-                    yPosition--
-                }
-                if(direction === "W"){
-                    xPosition--
-                }
+                coordinates = this._direction.move(coordinates);
             }
         }
 
-        return xPosition + ":" + yPosition + ":" + direction;
+        return coordinates + this._direction.direction;
     }
 }
