@@ -9,7 +9,8 @@ export default class Rover {
     execute(commands: string): string {
 
         let direction: string = this.startingPosition[4];
-        let xPosition: number = Number(this.startingPosition[2]);
+        let yPosition: number = Number(this.startingPosition[2]);
+        let xPosition: number = Number(this.startingPosition[0]);
 
         for (let command of commands) {
             if (command === "R") {
@@ -19,10 +20,15 @@ export default class Rover {
                 direction = this.directions[(this.directions.indexOf(direction) + 3) % 4];
             }
             if (command === "M") {
-                xPosition++
+                if(direction === "N"){
+                    yPosition++
+                }
+                if(direction === "E"){
+                    xPosition++
+                }
             }
         }
 
-        return "5:" + xPosition + ":" + direction;
+        return xPosition + ":" + yPosition + ":" + direction;
     }
 }
