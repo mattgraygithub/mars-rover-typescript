@@ -69,4 +69,9 @@ describe("Wrapping - Rover should...", () => {
         rover = new Rover("5:9:", NORTH)
         expect(rover.execute("M")).toBe("5:0:" + FACING_NORTH);
     })
+
+    it("wrap on y axis when an M command is received and Rover is on the edge of the grid facing south", () => {
+        rover = new Rover("5:0:", SOUTH)
+        expect(rover.execute("M")).toBe("5:9:" + FACING_SOUTH);
+    })
 })
