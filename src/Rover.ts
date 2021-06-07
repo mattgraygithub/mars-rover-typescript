@@ -10,7 +10,10 @@ export default class Rover {
     }
 
     execute(commands: string): string {
+
         let coordinates = this.startingCoordinates.slice(0, 4);
+        let x = Number(this.startingCoordinates[0]);
+        let y = Number(this.startingCoordinates[2]);
 
         for (let command of commands) {
             if (command === "R") {
@@ -20,7 +23,7 @@ export default class Rover {
                 this._direction = this._direction.rotateLeft();
             }
             if (command === "M") {
-                coordinates = this._direction.move(coordinates);
+                coordinates = this._direction.move(x, y);
             }
         }
 

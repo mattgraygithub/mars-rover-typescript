@@ -4,13 +4,12 @@ import East from "./East";
 
 export default class North implements Direction {
     direction = "N";
+    private readonly _delimiter = ":";
 
-    move(coordinates: string): string {
-        const x = coordinates.slice(0, 2);
-        const y = Number(coordinates[2]);
+    move(x: number, y: number): string {
         return this.isOnEdgeOfGrid(y)
-        ? x + "0" + ":"
-        : x + (y + 1) + ":";
+            ? x + this._delimiter + "0" + this._delimiter
+            : x + this._delimiter + (y + 1) + this._delimiter;
     }
 
     rotateLeft(): Direction {

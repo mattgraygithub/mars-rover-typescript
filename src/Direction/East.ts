@@ -4,9 +4,10 @@ import South from "./South";
 
 export default class East implements Direction {
     direction = "E";
+    private readonly _delimiter = ":";
 
-    move(coordinates: string): string {
-        return (Number(coordinates[0]) + 1) + coordinates.slice(1, 4);
+    move(x: number, y: number): string {
+        return (x + 1) + this._delimiter + y + this._delimiter;
     }
 
     rotateLeft(): Direction {
