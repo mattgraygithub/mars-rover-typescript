@@ -16,7 +16,7 @@ const WEST = new West();
 
 let rover: Rover;
 
-describe("Rotation functionality - Rover should", () => {
+describe("Rotation functionality - Rover should...", () => {
     beforeEach(() => {
         rover = new Rover(STARTING_COORDINATES, NORTH);
     });
@@ -42,9 +42,9 @@ describe("Rotation functionality - Rover should", () => {
     })
 })
 
-describe("Movement functionality - Rover should", () => {
-    rover = new Rover(STARTING_COORDINATES, NORTH)
+describe("Movement functionality - Rover should...", () => {
     it("move one space forward along y axis when an M command is received and Rover is facing north", () => {
+        rover = new Rover(STARTING_COORDINATES, NORTH)
         expect(rover.execute("M")).toBe("5:6:" + FACING_NORTH);
     })
 
@@ -61,5 +61,12 @@ describe("Movement functionality - Rover should", () => {
     it("move one space backwards along x axis when an M command is received and Rover is facing west", () => {
         rover = new Rover(STARTING_COORDINATES, WEST)
         expect(rover.execute("M")).toBe("4:5:" + FACING_WEST);
+    })
+})
+
+describe("Wrapping - Rover should...", () => {
+    it("wrap on y axis when an M command is received and Rover is on the edge of the grid facing north", () => {
+        rover = new Rover("5:9:", NORTH)
+        expect(rover.execute("M")).toBe("5:0:" + FACING_NORTH);
     })
 })
