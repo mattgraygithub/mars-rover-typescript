@@ -7,7 +7,9 @@ export default class East implements Direction {
     private readonly _delimiter = ":";
 
     move(x: number, y: number): string {
-        return (x + 1) + this._delimiter + y + this._delimiter;
+        return this.isOnEdgeOfGrid(x)
+            ? "0" + this._delimiter + y + this._delimiter
+            : (x + 1) + this._delimiter + y + this._delimiter;
     }
 
     rotateLeft(): Direction {
@@ -16,5 +18,9 @@ export default class East implements Direction {
 
     rotateRight(): Direction {
         return new South();
+    }
+
+    isOnEdgeOfGrid(x: number): boolean {
+        return x === 9;
     }
 }
