@@ -1,6 +1,7 @@
 import {Direction} from "./Direction";
 import East from "./East";
 import West from "./West";
+import Rover from "../Rover";
 
 export default class South implements Direction {
     direction = "S";
@@ -8,7 +9,7 @@ export default class South implements Direction {
 
     move(x: number, y: number): string {
         return this.isOnEdgeOfGrid(y)
-            ? x + this._delimiter + "9" + this._delimiter
+            ? x + this._delimiter + (Rover.gridSize - 1) + this._delimiter
             : x + this._delimiter + (y - 1) + this._delimiter;
     }
 

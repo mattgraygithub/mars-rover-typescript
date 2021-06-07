@@ -1,6 +1,7 @@
 import {Direction} from "./Direction";
 import North from "./North";
 import South from "./South";
+import Rover from "../Rover";
 
 export default class East implements Direction {
     direction = "E";
@@ -21,6 +22,6 @@ export default class East implements Direction {
     }
 
     isOnEdgeOfGrid(x: number): boolean {
-        return x === 9;
+        return x === Rover.gridSize - 1;
     }
 }

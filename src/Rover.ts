@@ -1,6 +1,7 @@
 import {Direction} from "./Direction/Direction";
 
 export default class Rover {
+    static gridSize: number = 10;
     private readonly startingCoordinates: string;
     private _direction: Direction;
 
