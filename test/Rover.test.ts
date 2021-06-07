@@ -1,4 +1,4 @@
-import Rover from "../src/rover";
+import Rover from "../src/Rover";
 
 const STARTING_COORDINATES = "5:5:";
 const FACING_NORTH = "N";
