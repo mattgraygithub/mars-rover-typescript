@@ -1,0 +1,19 @@
+{
+  "name": "MarsRover-04-06-21",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.4",
+    "ts-jest": "^27.0.2",
+    "typescript": "^4.3.2"
+  }
+}
