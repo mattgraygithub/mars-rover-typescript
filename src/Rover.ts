@@ -10,7 +10,6 @@ export default class Rover {
     }
 
     execute(commands: string): string {
-
         let coordinates = this.startingCoordinates.slice(0, 4);
         let x = Number(this.startingCoordinates[0]);
         let y = Number(this.startingCoordinates[2]);
