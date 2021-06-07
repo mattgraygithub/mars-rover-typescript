@@ -1,12 +1,15 @@
 export default class Rover {
-    startingX: string = "5";
-    startingDirection: string = "N";
+    private readonly startingPosition: string;
     directions: string[] = ["N", "E", "S", "W"]
+
+    constructor(startingPosition: string) {
+        this.startingPosition = startingPosition;
+    }
 
     execute(commands: string): string {
 
-        let direction: string = this.startingDirection;
-        let xPosition: number = Number(this.startingX);
+        let direction: string = this.startingPosition[4];
+        let xPosition: number = Number(this.startingPosition[2]);
 
         for (let command of commands) {
             if (command === "R") {

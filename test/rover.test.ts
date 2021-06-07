@@ -1,8 +1,7 @@
 import Rover from "../src/rover";
 
-const rover = new Rover();
-
 describe("Rover should", () => {
+    const rover = new Rover("5:5:N");
     it.each`
         inputCommands | expectedOutput
         ${"R"}        | ${"5:5:E"}
@@ -23,10 +22,7 @@ describe("Rover should", () => {
         expect(rover.execute(inputCommands)).toBe(expectedOutput);
     })
 
-    it.each`
-        inputCommands | expectedOutput
-        ${"M"}        | ${"5:6:N"}
-    `("move one space when an M command is received", ({inputCommands,expectedOutput}) => {
-        expect(rover.execute(inputCommands)).toBe(expectedOutput);
+    it("move one space along y axis when an M command is received and Rover is facing north", () => {
+        expect(rover.execute("M")).toBe("5:6:N");
     })
 })
