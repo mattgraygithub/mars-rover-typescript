@@ -1,32 +1,36 @@
 import Rover from "../src/rover";
 
-const STARTING_LOCATION = "5:5:";
-const STARTING_DIRECTION = "N";
-const STARTING_POSITION = STARTING_LOCATION + STARTING_DIRECTION;
+const STARTING_COORDINATES = "5:5:";
+const FACING_NORTH = "N";
+const FACING_EAST = "E";
+const FACING_SOUTH = "S";
+const FACING_WEST = "W";
+
+let rover: Rover;
 
 describe("Rover should", () => {
-    const rover = new Rover(STARTING_POSITION);
+    rover = new Rover(STARTING_COORDINATES + FACING_NORTH);
     it.each`
         inputCommands | expectedOutput
-        ${"R"}        | ${STARTING_LOCATION + "E"}
-        ${"RR"}       | ${STARTING_LOCATION + "S"}
-        ${"RRR"}      | ${STARTING_LOCATION + "W"}
-        ${"RRRR"}     | ${STARTING_LOCATION + "N"}
+        ${"R"}        | ${STARTING_COORDINATES + FACING_EAST}
+        ${"RR"}       | ${STARTING_COORDINATES + FACING_SOUTH}
+        ${"RRR"}      | ${STARTING_COORDINATES + FACING_WEST}
+        ${"RRRR"}     | ${STARTING_COORDINATES + FACING_NORTH}
     `("rotate right when an R command is received", ({inputCommands, expectedOutput}) => {
         expect(rover.execute(inputCommands)).toBe(expectedOutput);
     })
 
     it.each`
         inputCommands | expectedOutput
-        ${"L"}        | ${STARTING_LOCATION + "W"}
-        ${"LL"}       | ${STARTING_LOCATION + "S"}
-        ${"LLL"}      | ${STARTING_LOCATION + "E"}
-        ${"LLLL"}     | ${STARTING_LOCATION + "N"}
+        ${"L"}        | ${STARTING_COORDINATES + FACING_WEST}
+        ${"LL"}       | ${STARTING_COORDINATES + FACING_SOUTH}
+        ${"LLL"}      | ${STARTING_COORDINATES + FACING_EAST}
+        ${"LLLL"}     | ${STARTING_COORDINATES + FACING_NORTH}
     `("rotate left when an L command is received", ({inputCommands, expectedOutput}) => {
         expect(rover.execute(inputCommands)).toBe(expectedOutput);
     })
 
     it("move one space along y axis when an M command is received and Rover is facing north", () => {
-        expect(rover.execute("M")).toBe("5:6:" + STARTING_DIRECTION);
+        expect(rover.execute("M")).toBe("5:6:" + FACING_NORTH);
     })
 })
