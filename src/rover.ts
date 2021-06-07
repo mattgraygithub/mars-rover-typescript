@@ -26,6 +26,12 @@ export default class Rover {
                 if(direction === "E"){
                     xPosition++
                 }
+                if(direction === "S"){
+                    yPosition--
+                }
+                if(direction === "W"){
+                    xPosition--
+                }
             }
         }
 

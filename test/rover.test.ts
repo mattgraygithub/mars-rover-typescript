@@ -30,12 +30,22 @@ describe("Rover should", () => {
         expect(rover.execute(inputCommands)).toBe(expectedOutput);
     })
 
-    it("move one space along y axis when an M command is received and Rover is facing north", () => {
+    it("move one space forward along y axis when an M command is received and Rover is facing north", () => {
         expect(rover.execute("M")).toBe("5:6:" + FACING_NORTH);
     })
 
-    it("move one space along x axis when an M command is received and Rover is facing east", () => {
+    it("move one space forward along x axis when an M command is received and Rover is facing east", () => {
         rover = new Rover(STARTING_COORDINATES + FACING_EAST)
         expect(rover.execute("M")).toBe("6:5:" + FACING_EAST);
+    })
+
+    it("move one space backwards along y axis when an M command is received and Rover is facing south", () => {
+        rover = new Rover(STARTING_COORDINATES + FACING_SOUTH)
+        expect(rover.execute("M")).toBe("5:4:" + FACING_SOUTH);
+    })
+
+    it("move one space backwards along x axis when an M command is received and Rover is facing west", () => {
+        rover = new Rover(STARTING_COORDINATES + FACING_WEST)
+        expect(rover.execute("M")).toBe("4:5:" + FACING_WEST);
     })
 })
