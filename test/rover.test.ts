@@ -9,7 +9,7 @@ describe("Rover should", () => {
         ${"RR"}       | ${"5:5:S"}
         ${"RRR"}      | ${"5:5:W"}
         ${"RRRR"}     | ${"5:5:N"}
-    `("rotate right", ({inputCommands,expectedOutput}) => {
+    `("rotate right when an R command is received", ({inputCommands,expectedOutput}) => {
         expect(rover.execute(inputCommands)).toBe(expectedOutput);
     })
 
@@ -19,7 +19,14 @@ describe("Rover should", () => {
         ${"LL"}       | ${"5:5:S"}
         ${"LLL"}      | ${"5:5:E"}
         ${"LLLL"}     | ${"5:5:N"}
-    `("rotate left", ({inputCommands,expectedOutput}) => {
+    `("rotate left when an L command is received", ({inputCommands,expectedOutput}) => {
+        expect(rover.execute(inputCommands)).toBe(expectedOutput);
+    })
+
+    it.each`
+        inputCommands | expectedOutput
+        ${"M"}        | ${"5:6:N"}
+    `("move one space when an M command is received", ({inputCommands,expectedOutput}) => {
         expect(rover.execute(inputCommands)).toBe(expectedOutput);
     })
 })
