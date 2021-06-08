@@ -110,52 +110,21 @@ describe("Rover obstacle detection functionality", () => {
              ${"5:7:"}          |   ${SOUTH}    |   ${"O:5:6:" + FACING_SOUTH}
              ${"6:6:"}          |   ${WEST}     |   ${"O:5:6:" + FACING_WEST}
         `
-    ("detects an obstacle in the next cell without wrapping", ({
-                                                                   startingCoordinates,
-                                                                   direction,
-                                                                   expectedOutput
-                                                               }) => {
+    ("detects an obstacle in the next cell without wrapping", ({startingCoordinates, direction, expectedOutput}) => {
         rover = new Rover(gridWithOneObstacle(), startingCoordinates, direction)
         expect(rover.execute("M")).toBe(expectedOutput);
     })
 
-    it("detects an obstacle in the next cell facing north with wrapping", () => {
-
-        let gridWithOneObstacleOnSouthEdge: Grid = new Grid([
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "o", "", "", "", ""]
-        ]);
-
-        rover = new Rover(gridWithOneObstacleOnSouthEdge, "5:9:", NORTH)
-        expect(rover.execute("M")).toBe("O:5:0:" + FACING_NORTH);
-    })
-
-
-    it("detects an obstacle in the next cell facing east with wrapping", () => {
-
-        let gridWithOneObstacleOnWestEdge: Grid = new Grid([
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["o", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""],
-            ["", "", "", "", "", "", "", "", "", ""]
-        ]);
-
-        rover = new Rover(gridWithOneObstacleOnWestEdge, "9:6:", EAST)
-        expect(rover.execute("M")).toBe("O:0:6:" + FACING_EAST);
+    it.each`
+            grid                       |   startingCoordinates   |   direction   |   expectedOutput
+    ${gridWithObstacleOnSouthEdge()}   |        ${"5:9:"}        |   ${NORTH}    |   ${"O:5:0:" + FACING_NORTH}
+    ${gridWithObstacleOnWestEdge()}    |        ${"9:6:"}        |   ${EAST}     |   ${"O:0:6:" + FACING_EAST}
+    ${gridWithObstacleOnNorthEdge()}   |        ${"4:0:"}        |   ${SOUTH}    |   ${"O:4:9:" + FACING_SOUTH}
+    ${gridWithObstacleOnEastEdge()}    |        ${"0:5:"}        |   ${WEST}    |   ${"O:9:5:" + FACING_WEST}
+    `
+    ("detects an obstacle in the next cell with wrapping", ({grid, startingCoordinates, direction, expectedOutput}) => {
+        rover = new Rover(grid, startingCoordinates, direction)
+        expect(rover.execute("M")).toBe(expectedOutput);
     })
 
     function gridWithOneObstacle(): Grid {
@@ -173,4 +142,63 @@ describe("Rover obstacle detection functionality", () => {
         ]);
     }
 
+    function gridWithObstacleOnSouthEdge(): Grid {
+        return new Grid([
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "o", "", "", "", ""]
+        ]);
+    }
+
+    function gridWithObstacleOnWestEdge(): Grid {
+        return new Grid([
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["o", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""]
+        ]);
+    }
+
+    function gridWithObstacleOnNorthEdge(): Grid {
+        return new Grid([
+            ["", "", "", "", "o", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""]
+        ]);
+    }
+
+    function gridWithObstacleOnEastEdge(): Grid {
+        return new Grid([
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", "o"],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""],
+            ["", "", "", "", "", "", "", "", "", ""]
+        ]);
+    }
 })
