@@ -1,19 +1,21 @@
 import {Direction} from "./Direction/Direction";
+import Grid from "./Grid";
 
 export default class Rover {
-    static gridSize: number = 10;
-    private readonly startingCoordinates: string;
+    private _grid: Grid;
+    private readonly _startingCoordinates: string;
     private _direction: Direction;
 
-    constructor(startingCoordinates: string, direction: Direction) {
-        this.startingCoordinates = startingCoordinates;
+    constructor(grid: Grid, startingCoordinates: string, direction: Direction) {
+        this._grid = grid;
+        this._startingCoordinates = startingCoordinates;
         this._direction = direction;
     }
 
     execute(commands: string): string {
-        let coordinates = this.startingCoordinates.slice(0, 4);
-        let x = Number(this.startingCoordinates[0]);
-        let y = Number(this.startingCoordinates[2]);
+        let coordinates = this._startingCoordinates.slice(0, 4);
+        let x = Number(this._startingCoordinates[0]);
+        let y = Number(this._startingCoordinates[2]);
 
         for (let command of commands) {
             if (command === "R") {
@@ -23,7 +25,7 @@ export default class Rover {
                 this._direction = this._direction.rotateLeft();
             }
             if (command === "M") {
-                coordinates = this._direction.move(x, y);
+                coordinates = this._direction.move(this._grid.grid, x, y);
             }
         }
 

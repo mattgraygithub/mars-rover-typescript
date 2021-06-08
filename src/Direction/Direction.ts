@@ -6,5 +6,5 @@ export interface Direction {
 
     rotateRight(): Direction;
 
-    move(x: number, y: number): string;
+    move(grid: string[][], x: number, y: number): string;
 }

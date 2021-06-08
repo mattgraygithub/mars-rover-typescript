@@ -1,16 +1,20 @@
 import {Direction} from "./Direction";
 import West from "./West";
 import East from "./East";
-import Rover from "../Rover";
 
 export default class North implements Direction {
     direction = "N";
     private readonly _delimiter = ":";
 
-    move(x: number, y: number): string {
-        return this.isOnEdgeOfGrid(y)
-            ? x + this._delimiter + "0" + this._delimiter
-            : x + this._delimiter + (y + 1) + this._delimiter;
+    move(grid: string[][], x: number, y: number): string {
+
+        if (this.isOnEdgeOfGrid(grid.length, y)) {
+            return x + this._delimiter + "0" + this._delimiter
+        } else {
+            return this.isObstacle(grid, x, y + 1)
+                ? "O:" + x + this._delimiter + (y + 1) + this._delimiter
+                : x + this._delimiter + (y + 1) + this._delimiter;
+        }
     }
 
     rotateLeft(): Direction {
@@ -21,7 +25,11 @@ export default class North implements Direction {
         return new East();
     }
 
-    isOnEdgeOfGrid(y: number): boolean {
-        return y === Rover.gridSize - 1;
+    isOnEdgeOfGrid(gridSize: number, y: number): boolean {
+        return y === gridSize - 1;
+    }
+
+    isObstacle(grid: string[][], x: number, y: number): boolean {
+        return grid[grid.length - 1 - y][x] === "o";
     }
 }
