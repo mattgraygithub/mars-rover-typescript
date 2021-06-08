@@ -119,4 +119,23 @@ describe("Rover obstacle detection functionality", () => {
         rover = new Rover(gridWithOneObstacle, "5:5:", NORTH)
         expect(rover.execute("M")).toBe("O:5:6:" + FACING_NORTH);
     })
+
+    it("detects an obstacle in the next cell facing north with wrapping", () => {
+
+        let gridWithOneObstacle: Grid = new Grid([
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","o","","","",""]
+        ]);
+
+        rover = new Rover(gridWithOneObstacle, "5:9:", NORTH)
+        expect(rover.execute("M")).toBe("O:5:0:" + FACING_NORTH);
+    })
 })

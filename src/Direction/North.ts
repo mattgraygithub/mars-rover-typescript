@@ -7,9 +7,10 @@ export default class North implements Direction {
     private readonly _delimiter = ":";
 
     move(grid: string[][], x: number, y: number): string {
-
         if (this.isOnEdgeOfGrid(grid.length, y)) {
-            return x + this._delimiter + "0" + this._delimiter
+            return this.isObstacle(grid, x, 0)
+                ? "O:" + x + this._delimiter + "0" + this._delimiter
+                : x + this._delimiter + "0" + this._delimiter
         } else {
             return this.isObstacle(grid, x, y + 1)
                 ? "O:" + x + this._delimiter + (y + 1) + this._delimiter
