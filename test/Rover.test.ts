@@ -107,6 +107,8 @@ describe("Rover obstacle detection functionality", () => {
          startingCoordinates    |   direction   |   expectedOutput
              ${"5:5:"}          |   ${NORTH}    |   ${"O:5:6:" + FACING_NORTH}
              ${"4:6:"}          |   ${EAST}     |   ${"O:5:6:" + FACING_EAST}
+             ${"5:7:"}          |   ${SOUTH}    |   ${"O:5:6:" + FACING_SOUTH}
+             ${"6:6:"}          |   ${WEST}     |   ${"O:5:6:" + FACING_WEST}
         `
     ("detects an obstacle in the next cell without wrapping", ({
                                                                    startingCoordinates,

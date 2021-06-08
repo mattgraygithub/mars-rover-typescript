@@ -13,8 +13,8 @@ export default class North implements Direction {
 
     move(grid: string[][], x: number, y: number): string {
         return this.isOnEdgeOfGrid(grid.length, y)
-        ? this._move.move(grid,x,0)
-        : this._move.move(grid,x,y + 1);
+            ? this._move.move(grid, x, 0)
+            : this._move.move(grid, x, y + 1);
     }
 
     rotateLeft(): Direction {

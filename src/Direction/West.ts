@@ -5,7 +5,6 @@ import Move from "../Move/Move";
 
 export default class West implements Direction {
     direction = "W";
-    private readonly _delimiter = ":";
     private _move: Move;
 
     constructor(move: Move) {
@@ -14,8 +13,8 @@ export default class West implements Direction {
 
     move(grid: string[][], x: number, y: number): string {
         return this.isOnEdgeOfGrid(x)
-            ? (grid.length - 1) + this._delimiter + y + this._delimiter
-            : (x - 1) + this._delimiter + y + this._delimiter;
+            ? this._move.move(grid, grid.length - 1, y)
+            : this._move.move(grid, x - 1, y);
     }
 
     rotateLeft(): Direction {

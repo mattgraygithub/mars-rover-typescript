@@ -5,7 +5,6 @@ import Move from "../Move/Move";
 
 export default class South implements Direction {
     direction = "S";
-    private readonly _delimiter = ":";
     private _move: Move;
 
     constructor(move: Move) {
@@ -14,8 +13,8 @@ export default class South implements Direction {
 
     move(grid: string[][], x: number, y: number): string {
         return this.isOnEdgeOfGrid(y)
-            ? x + this._delimiter + (grid.length - 1) + this._delimiter
-            : x + this._delimiter + (y - 1) + this._delimiter;
+            ? this._move.move(grid, x, grid.length - 1)
+            : this._move.move(grid, x, y - 1);
     }
 
     rotateLeft(): Direction {
