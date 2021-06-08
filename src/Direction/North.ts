@@ -1,36 +1,31 @@
 import {Direction} from "./Direction";
 import West from "./West";
 import East from "./East";
+import Move from "../Move/Move";
 
 export default class North implements Direction {
     direction = "N";
-    private readonly _delimiter = ":";
+    private _move: Move;
+
+    constructor(move: Move) {
+        this._move = move;
+    }
 
     move(grid: string[][], x: number, y: number): string {
-        if (this.isOnEdgeOfGrid(grid.length, y)) {
-            return this.isObstacle(grid, x, 0)
-                ? "O:" + x + this._delimiter + "0" + this._delimiter
-                : x + this._delimiter + "0" + this._delimiter
-        } else {
-            return this.isObstacle(grid, x, y + 1)
-                ? "O:" + x + this._delimiter + (y + 1) + this._delimiter
-                : x + this._delimiter + (y + 1) + this._delimiter;
-        }
+        return this.isOnEdgeOfGrid(grid.length, y)
+        ? this._move.move(grid,x,0)
+        : this._move.move(grid,x,y + 1);
     }
 
     rotateLeft(): Direction {
-        return new West();
+        return new West(new Move());
     }
 
     rotateRight(): Direction {
-        return new East();
+        return new East(new Move());
     }
 
     isOnEdgeOfGrid(gridSize: number, y: number): boolean {
         return y === gridSize - 1;
-    }
-
-    isObstacle(grid: string[][], x: number, y: number): boolean {
-        return grid[grid.length - 1 - y][x] === "o";
     }
 }
