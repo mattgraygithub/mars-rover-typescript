@@ -59,24 +59,16 @@ describe("Rover rotation functionality", () => {
 })
 
 describe("Rover movement functionality", () => {
-    it("moves one space forward along y axis when an M command is received and Rover is facing north", () => {
-        rover = new Rover(EMPTY_GRID, STARTING_COORDINATES, NORTH)
-        expect(rover.execute("M")).toBe("5:6:" + FACING_NORTH);
-    })
-
-    it("moves one space forward along x axis when an M command is received and Rover is facing east", () => {
-        rover = new Rover(EMPTY_GRID, STARTING_COORDINATES, EAST)
-        expect(rover.execute("M")).toBe("6:5:" + FACING_EAST);
-    })
-
-    it("moves one space backwards along y axis when an M command is received and Rover is facing south", () => {
-        rover = new Rover(EMPTY_GRID, STARTING_COORDINATES, SOUTH)
-        expect(rover.execute("M")).toBe("5:4:" + FACING_SOUTH);
-    })
-
-    it("moves one space backwards along x axis when an M command is received and Rover is facing west", () => {
-        rover = new Rover(EMPTY_GRID, STARTING_COORDINATES, WEST)
-        expect(rover.execute("M")).toBe("4:5:" + FACING_WEST);
+    it.each`
+              direction   |   expectedOutput
+              ${NORTH}    |   ${"5:6:" + FACING_NORTH}
+              ${EAST}     |   ${"6:5:" + FACING_EAST}
+              ${SOUTH}    |   ${"5:4:" + FACING_SOUTH}
+              ${WEST}     |   ${"4:5:" + FACING_WEST}
+        `
+    ("moves forward when an M command s received", ({direction, expectedOutput}) => {
+        rover = new Rover(EMPTY_GRID, STARTING_COORDINATES, direction)
+        expect(rover.execute("M")).toBe(expectedOutput);
     })
 })
 
