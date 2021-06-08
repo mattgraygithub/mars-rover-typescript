@@ -4,16 +4,18 @@ import East from "../src/Direction/East";
 import South from "../src/Direction/South";
 import West from "../src/Direction/West";
 import Grid from "../src/Grid";
+import Move from "../src/Move/Move";
 
 const STARTING_COORDINATES = "5:5:";
 const FACING_NORTH = "N";
 const FACING_EAST = "E";
 const FACING_SOUTH = "S";
 const FACING_WEST = "W";
-const NORTH = new North();
-const EAST = new East();
-const SOUTH = new South();
-const WEST = new West();
+const MOVE = new Move();
+const NORTH = new North(MOVE);
+const EAST = new East(MOVE);
+const SOUTH = new South(MOVE);
+const WEST = new West(MOVE);
 
 let EMPTY_GRID: Grid = new Grid([
     ["","","","","","","","","",""],
@@ -101,28 +103,26 @@ describe("Rover wrapping functionality", () => {
 })
 
 describe("Rover obstacle detection functionality", () => {
+    let gridWithOneObstacle: Grid = new Grid([
+        ["","","","","","","","","",""],
+        ["","","","","","","","","",""],
+        ["","","","","","","","","",""],
+        ["","","","","","o","","","",""],
+        ["","","","","","","","","",""],
+        ["","","","","","","","","",""],
+        ["","","","","","","","","",""],
+        ["","","","","","","","","",""],
+        ["","","","","","","","","",""],
+        ["","","","","","","","","",""]
+    ]);
     it("detects an obstacle in the next cell facing north without wrapping", () => {
-
-        let gridWithOneObstacle: Grid = new Grid([
-            ["","","","","","","","","",""],
-            ["","","","","","","","","",""],
-            ["","","","","","","","","",""],
-            ["","","","","","o","","","",""],
-            ["","","","","","","","","",""],
-            ["","","","","","","","","",""],
-            ["","","","","","","","","",""],
-            ["","","","","","","","","",""],
-            ["","","","","","","","","",""],
-            ["","","","","","","","","",""]
-        ]);
-
         rover = new Rover(gridWithOneObstacle, "5:5:", NORTH)
         expect(rover.execute("M")).toBe("O:5:6:" + FACING_NORTH);
     })
 
     it("detects an obstacle in the next cell facing north with wrapping", () => {
 
-        let gridWithOneObstacle: Grid = new Grid([
+        let gridWithOneObstacleOnSouthEdge: Grid = new Grid([
             ["","","","","","","","","",""],
             ["","","","","","","","","",""],
             ["","","","","","","","","",""],
@@ -135,7 +135,31 @@ describe("Rover obstacle detection functionality", () => {
             ["","","","","","o","","","",""]
         ]);
 
-        rover = new Rover(gridWithOneObstacle, "5:9:", NORTH)
+        rover = new Rover(gridWithOneObstacleOnSouthEdge, "5:9:", NORTH)
         expect(rover.execute("M")).toBe("O:5:0:" + FACING_NORTH);
+    })
+
+    it("detects an obstacle in the next cell facing east without wrapping", () => {
+        rover = new Rover(gridWithOneObstacle, "4:6:", EAST)
+        expect(rover.execute("M")).toBe("O:5:6:" + FACING_EAST);
+    })
+
+    it("detects an obstacle in the next cell facing east with wrapping", () => {
+
+        let gridWithOneObstacleOnWestEdge: Grid = new Grid([
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["o","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""],
+            ["","","","","","","","","",""]
+        ]);
+
+        rover = new Rover(gridWithOneObstacleOnWestEdge, "9:6:", EAST)
+        expect(rover.execute("M")).toBe("O:0:6:" + FACING_EAST);
     })
 })
