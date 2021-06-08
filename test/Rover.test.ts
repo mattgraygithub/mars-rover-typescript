@@ -73,24 +73,20 @@ describe("Rover movement functionality", () => {
 })
 
 describe("Rover wrapping functionality", () => {
-    it("wraps on y axis when an M command is received and Rover is on the edge of the grid facing north", () => {
-        rover = new Rover(EMPTY_GRID, "5:9:", NORTH)
-        expect(rover.execute("M")).toBe("5:0:" + FACING_NORTH);
-    })
-
-    it("wraps on y axis when an M command is received and Rover is on the edge of the grid facing south", () => {
-        rover = new Rover(EMPTY_GRID, "5:0:", SOUTH)
-        expect(rover.execute("M")).toBe("5:9:" + FACING_SOUTH);
-    })
-
-    it("wraps on x axis when an M command is received and Rover is on the edge of the grid facing east", () => {
-        rover = new Rover(EMPTY_GRID, "9:5:", EAST)
-        expect(rover.execute("M")).toBe("0:5:" + FACING_EAST);
-    })
-
-    it("wraps on x axis when an M command is received and Rover is on the edge of the grid facing west", () => {
-        rover = new Rover(EMPTY_GRID, "0:5:", WEST)
-        expect(rover.execute("M")).toBe("9:5:" + FACING_WEST);
+    it.each`
+         startingCoordinates    |   direction   |   expectedOutput
+             ${"5:9:"}          |   ${NORTH}    |   ${"5:0:" + FACING_NORTH}
+             ${"9:5:"}          |   ${EAST}     |   ${"0:5:" + FACING_EAST}
+             ${"5:0:"}          |   ${SOUTH}    |   ${"5:9:" + FACING_SOUTH}
+             ${"0:5:"}          |   ${WEST}     |   ${"9:5:" + FACING_WEST}
+        `
+    ("wraps around the grid when an M command is received and Rover is on edge of grid", ({
+                                                                                              startingCoordinates,
+                                                                                              direction,
+                                                                                              expectedOutput
+                                                                                          }) => {
+        rover = new Rover(EMPTY_GRID, startingCoordinates, direction)
+        expect(rover.execute("M")).toBe(expectedOutput);
     })
 })
 
