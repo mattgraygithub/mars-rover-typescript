@@ -2,9 +2,6 @@ import {Direction} from "./Direction/Direction";
 import Grid from "./Grid";
 import Move from "./Move/Move";
 
-const X = 0;
-const Y = 2;
-
 export default class Rover {
     private _grid: Grid;
     private readonly _startingCoordinates: string;
