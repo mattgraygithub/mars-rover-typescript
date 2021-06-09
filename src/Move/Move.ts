@@ -1,14 +1,18 @@
-export default class Move {
-    private readonly _delimiter = ":";
-    private readonly _obstacleIdentifier = "O:";
+import {Direction} from "../Direction/Direction";
 
-    move(grid: string[][], x: number, y: number): string {
-        return this.hasObstacle(grid, x, y)
-            ? this._obstacleIdentifier + x + this._delimiter + y + this._delimiter
-            : x + this._delimiter + y + this._delimiter
+const X = 0;
+const Y = 2;
+const OBSTACLE_IDENTIFIER = "O:";
+
+export default class Move {
+
+    move(grid: string[][], coordinates: string, direction: Direction): string {
+        return this.hasObstacle(grid, direction.move(grid, Number(coordinates[X]), Number(coordinates[Y])))
+            ? `${OBSTACLE_IDENTIFIER}${coordinates}`
+            : direction.move(grid, Number(coordinates[X]), Number(coordinates[Y]))
     }
 
-    hasObstacle(grid: string[][], x: number, y: number): boolean {
-        return grid[grid.length - 1 - y][x] === "o";
+    hasObstacle(grid: string[][], coordinates: string): boolean {
+        return grid[grid.length - 1 - Number(coordinates[Y])][Number(coordinates[X])] === "o";
     }
 }

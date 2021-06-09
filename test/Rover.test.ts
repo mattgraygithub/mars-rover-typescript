@@ -12,12 +12,12 @@ const FACING_EAST = "E";
 const FACING_SOUTH = "S";
 const FACING_WEST = "W";
 const MOVE = new Move();
-const NORTH = new North(MOVE);
-const EAST = new East(MOVE);
-const SOUTH = new South(MOVE);
-const WEST = new West(MOVE);
+const NORTH = new North();
+const EAST = new East();
+const SOUTH = new South();
+const WEST = new West();
 
-let EMPTY_GRID: Grid = new Grid([
+export const EMPTY_GRID: Grid = new Grid([
     ["", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
     ["", "", "", "", "", "", "", "", "", ""],
@@ -34,7 +34,7 @@ let rover: Rover;
 
 describe("Rover rotation functionality", () => {
     beforeEach(() => {
-        rover = new Rover(EMPTY_GRID, STARTING_COORDINATES, NORTH);
+        rover = new Rover(EMPTY_GRID, STARTING_COORDINATES, NORTH, MOVE);
     });
 
     it.each`
@@ -67,7 +67,7 @@ describe("Rover movement functionality", () => {
               ${WEST}     |   ${"4:5:" + FACING_WEST}
         `
     ("moves forward when an M command s received", ({direction, expectedOutput}) => {
-        rover = new Rover(EMPTY_GRID, STARTING_COORDINATES, direction)
+        rover = new Rover(EMPTY_GRID, STARTING_COORDINATES, direction, MOVE)
         expect(rover.execute("M")).toBe(expectedOutput);
     })
 })
@@ -85,7 +85,7 @@ describe("Rover wrapping functionality", () => {
                                                                                               direction,
                                                                                               expectedOutput
                                                                                           }) => {
-        rover = new Rover(EMPTY_GRID, startingCoordinates, direction)
+        rover = new Rover(EMPTY_GRID, startingCoordinates, direction, MOVE)
         expect(rover.execute("M")).toBe(expectedOutput);
     })
 })
@@ -93,25 +93,25 @@ describe("Rover wrapping functionality", () => {
 describe("Rover obstacle detection functionality", () => {
     it.each`
          startingCoordinates    |   direction   |   expectedOutput
-             ${"5:5:"}          |   ${NORTH}    |   ${"O:5:6:" + FACING_NORTH}
-             ${"4:6:"}          |   ${EAST}     |   ${"O:5:6:" + FACING_EAST}
-             ${"5:7:"}          |   ${SOUTH}    |   ${"O:5:6:" + FACING_SOUTH}
-             ${"6:6:"}          |   ${WEST}     |   ${"O:5:6:" + FACING_WEST}
+             ${"5:5:"}          |   ${NORTH}    |   ${"O:5:5:" + FACING_NORTH}
+             ${"4:6:"}          |   ${EAST}     |   ${"O:4:6:" + FACING_EAST}
+             ${"5:7:"}          |   ${SOUTH}    |   ${"O:5:7:" + FACING_SOUTH}
+             ${"6:6:"}          |   ${WEST}     |   ${"O:6:6:" + FACING_WEST}
         `
     ("detects an obstacle in the next cell without wrapping", ({startingCoordinates, direction, expectedOutput}) => {
-        rover = new Rover(gridWithOneObstacle(), startingCoordinates, direction)
+        rover = new Rover(gridWithOneObstacle(), startingCoordinates, direction, MOVE)
         expect(rover.execute("M")).toBe(expectedOutput);
     })
 
     it.each`
             grid                       |   startingCoordinates   |   direction   |   expectedOutput
-    ${gridWithObstacleOnSouthEdge()}   |        ${"5:9:"}        |   ${NORTH}    |   ${"O:5:0:" + FACING_NORTH}
-    ${gridWithObstacleOnWestEdge()}    |        ${"9:6:"}        |   ${EAST}     |   ${"O:0:6:" + FACING_EAST}
-    ${gridWithObstacleOnNorthEdge()}   |        ${"4:0:"}        |   ${SOUTH}    |   ${"O:4:9:" + FACING_SOUTH}
-    ${gridWithObstacleOnEastEdge()}    |        ${"0:5:"}        |   ${WEST}    |   ${"O:9:5:" + FACING_WEST}
+    ${gridWithObstacleOnSouthEdge()}   |        ${"5:9:"}        |   ${NORTH}    |   ${"O:5:9:" + FACING_NORTH}
+    ${gridWithObstacleOnWestEdge()}    |        ${"9:6:"}        |   ${EAST}     |   ${"O:9:6:" + FACING_EAST}
+    ${gridWithObstacleOnNorthEdge()}   |        ${"4:0:"}        |   ${SOUTH}    |   ${"O:4:0:" + FACING_SOUTH}
+    ${gridWithObstacleOnEastEdge()}    |        ${"0:5:"}        |   ${WEST}     |   ${"O:0:5:" + FACING_WEST}
     `
     ("detects an obstacle in the next cell with wrapping", ({grid, startingCoordinates, direction, expectedOutput}) => {
-        rover = new Rover(grid, startingCoordinates, direction)
+        rover = new Rover(grid, startingCoordinates, direction, MOVE)
         expect(rover.execute("M")).toBe(expectedOutput);
     })
 

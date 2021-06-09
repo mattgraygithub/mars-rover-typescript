@@ -1,28 +1,23 @@
 import {Direction} from "./Direction";
 import North from "./North";
 import South from "./South";
-import Move from "../Move/Move";
 
 export default class East implements Direction {
     direction = "E";
-    private _move: Move;
-
-    constructor(move: Move) {
-        this._move = move;
-    }
+    private readonly _delimiter = ":";
 
     move(grid: string[][], x: number, y: number): string {
         return this.isOnEdgeOfGrid(grid.length, x)
-            ? this._move.move(grid, 0, y)
-            : this._move.move(grid, x + 1, y);
+            ? `${0}${this._delimiter}${y}${this._delimiter}`
+            : `${x + 1}${this._delimiter}${y}${this._delimiter}`
     }
 
     rotateLeft(): Direction {
-        return new North(new Move());
+        return new North();
     }
 
     rotateRight(): Direction {
-        return new South(new Move());
+        return new South();
     }
 
     isOnEdgeOfGrid(gridSize: number, x: number): boolean {

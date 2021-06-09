@@ -7,4 +7,6 @@ export interface Direction {
     rotateRight(): Direction;
 
     move(grid: string[][], x: number, y: number): string;
+
+    isOnEdgeOfGrid(gridSize: number, y: number): Boolean;
 }
